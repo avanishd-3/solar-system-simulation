@@ -1,6 +1,7 @@
 # External imports
 import pygame
 import numpy as np
+from collections import deque # Fast append and pop
 
 # Local imports
 from utils import (
@@ -50,7 +51,7 @@ class Body:
         self.vel = np.array([vx, vy], dtype='float64')
         self.color = color
         self.radius = radius
-        self.orbit = []
+        self.orbit = deque(maxlen=TRAIL_LENGTH)  # Store only the last TRAIL_LENGTH positions
 
     def update_position(self, bodies):
         total_force = np.array([0.0, 0.0])
