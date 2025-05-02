@@ -5,7 +5,7 @@ import numpy as np
 # Local imports
 from utils import (
     WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
-    WHITE, YELLOW, BLUE, RED, GREY, ORANGE, COMET_COLOR,
+    Colors,
     TRAIL_LENGTH
 )
 
@@ -97,21 +97,25 @@ font = pygame.font.SysFont("Arial", 16)
 curr_scale = DEFAULT_SCALE
 
 # Sun (stationary)
-sun = Body("Sun", 1.989e30, 0, 0, 0, 0, YELLOW, 20)
+sun = Body("Sun", 1.989e30, 0, 0, 0, 0, Colors.YELLOW, 20)
 
 # Planets
 planets = [
-    Body("Mercury", 3.3e23, 0, 0.387 * AU, 47000, 0, GREY, 4),
-    Body("Venus", 4.87e24, 0, 0.723 * AU, 35000, 0, ORANGE, 6),
-    Body("Earth", 5.97e24, 0, 1.0 * AU, 29780, 0, BLUE, 6),
-    Body("Mars", 6.42e23, 0, 1.52 * AU, 24070, 0, RED, 5),
+    Body("Mercury", 3.3e23, 0, 0.387 * AU, 47000, 0, Colors.GREY, 4),
+    Body("Venus", 4.87e24, 0, 0.723 * AU, 35000, 0, Colors.PINK, 6),
+    Body("Earth", 5.97e24, 0, 1.0 * AU, 29780, 0, Colors.BLUE, 6),
+    Body("Mars", 6.42e23, 0, 1.52 * AU, 24070, 0, Colors.RED, 5),
+    Body("Jupiter", 1.90e27, 0, 5.2 * AU, 13070, 0, Colors.ORANGE, 10),
+    Body("Saturn", 5.68e26, 0, 9.52 * AU, 9680, 0, Colors.SATURN_YELLOW, 9),
+    Body("Uranus", 8.68e25, 0, 19.22 * AU, 6800, 0, Colors.URANUS_BLUE, 8),
+    Body("Neptune", 1.02e26, 0, 30.09 * AU, 5400, 0, Colors.NEPTUNE_BLUE, 8),
 ]
 
 # Add sun to the body list for gravitational interaction
 all_bodies = [sun] + planets
 
 # Comet with hyperbolic orbit
-comet = Body("Comet", 1e14, -2 * AU, 0.5 * AU, 60000 / 2, 15000 / 2, COMET_COLOR, 3)
+comet = Body("Comet", 1e14, -2 * AU, 0.5 * AU, 60000 / 2, 15000 / 2, Colors.COMET_COLOR, 3)
 
 # Main loop
 running = True
@@ -159,7 +163,7 @@ while running:
     sun.draw(screen)
 
     # Display current scale
-    scale_text = font.render(f"Scale: {curr_scale / DEFAULT_SCALE:.2f}x", True, WHITE)
+    scale_text = font.render(f"Scale: {curr_scale / DEFAULT_SCALE:.2f}x", True, Colors.WHITE)
     screen.blit(scale_text, (10, 10))
     pygame.display.flip()
 
