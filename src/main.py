@@ -85,7 +85,8 @@ class Body:
         # Draw orbit
         if len(self.orbit) > 2:
             points = [CENTER + pos * curr_scale for pos in self.orbit]
-            pygame.draw.lines(surface, self.color, False, points, 1)
+            # Make orbit trail smoother and less pixelated
+            pygame.draw.aalines(surface, self.color, False, points, 1)
 
 
 # Pygame setup
