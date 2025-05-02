@@ -8,6 +8,7 @@ AU = 1.496e11  # Astronomical Unit in meters (distance from Earth to Sun)
 G = 6.67430e-11  # Gravitational constant
 DEFAULT_SCALE = 250 / AU  # Pixels per meter (scaled for screen)
 TIMESTEP = 60 * 60 * 24  # One day in seconds
+MAX_TIMESTEP = 1.5e6 # Cap to simulation speed
 
 # Colors
 

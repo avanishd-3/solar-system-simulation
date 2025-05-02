@@ -6,12 +6,12 @@ from collections import deque # Fast append and pop
 # Local imports
 from utils import (
     WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
-    Colors,
-    TRAIL_LENGTH
+    MAX_TIMESTEP, Colors, TRAIL_LENGTH
 )
 
 # Global variables
 curr_scale = DEFAULT_SCALE
+time_step = TIMESTEP
 
 class Body:
     """
@@ -65,9 +65,31 @@ class Body:
             force_mag = G * self.mass * body.mass / distance**2
             total_force += force_dir * force_mag
 
+        # Calculate acceleration (by F=ma)
         acceleration = total_force / self.mass
-        self.vel += acceleration * TIMESTEP
-        self.pos += self.vel * TIMESTEP
+
+        # Velocity Verlet integration
+        self.pos += self.vel * time_step + 0.5 * acceleration * time_step**2
+
+        # Update acceleration based on new position
+        new_total_force = np.array([0.0, 0.0])
+        for body in bodies:
+            if body is self:
+                continue
+
+            r_vec = body.pos - self.pos
+            distance = np.linalg.norm(r_vec)
+            force_dir = r_vec / distance
+            force_mag = G * self.mass * body.mass / distance**2
+            new_total_force += force_dir * force_mag
+
+        # Calculate new acceleration (by F=ma)
+        new_acceleration = new_total_force / self.mass
+
+        # Update velocity using the average of the old and new accelerations
+        self.vel += 0.5 * (acceleration + new_acceleration) * time_step
+        
+        # Store the current position in the orbit trail
         self.orbit.append(self.pos.copy())
 
         # Remove oldest points from the orbit trail
@@ -131,7 +153,6 @@ while running:
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
 
-        # Zoom controls
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_EQUALS or event.key == pygame.K_PLUS or event.key == pygame.K_UP: # Zoom in
                 curr_scale *= 1.1
@@ -139,8 +160,18 @@ while running:
             elif event.key == pygame.K_MINUS or event.key == pygame.K_UNDERSCORE or event.key == pygame.K_DOWN: # Zoom out
                 curr_scale /= 1.1
 
+            elif event.key == pygame.K_LEFT: # Slow down simulation
+                time_step /= 1.1
+
+            elif event.key == pygame.K_RIGHT: # Speed up simulation
+                time_step *= 1.1
+                time_step = min(MAX_TIMESTEP, time_step) # Cap the time step to a maximum value
+
             elif event.key == pygame.K_r: # Reset scale
                 curr_scale = DEFAULT_SCALE
+
+            elif event.key == pygame.K_t:
+                time_step = TIMESTEP  # Reset time step to default
 
             elif event.key == pygame.K_SPACE: # Pause/Unpause
                 paused = not paused
@@ -164,9 +195,11 @@ while running:
     # Draw sun (doesn't move)
     sun.draw(screen)
 
-    # Display current scale
+    # Display current scale and speed
     scale_text = font.render(f"Scale: {curr_scale / DEFAULT_SCALE:.2f}x", True, Colors.WHITE)
+    time_text = font.render(f"Speed: {time_step / TIMESTEP:.2f}x", True, Colors.WHITE)
     screen.blit(scale_text, (10, 10))
+    screen.blit(time_text, (10, 30))
     pygame.display.flip()
 
 pygame.quit()
