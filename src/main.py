@@ -1,37 +1,48 @@
+# External imports
 import pygame
 import numpy as np
 
-# Constants
-WIDTH, HEIGHT = 1000, 800
-CENTER = np.array([WIDTH // 2, HEIGHT // 2])
-AU = 1.496e11  # Astronomical Unit in meters
-G = 6.67430e-11  # Gravitational constant
-DEFAULT_SCALE = 250 / AU  # Pixels per meter (scaled for screen)
-TIMESTEP = 60 * 60 * 24  # One day in seconds
-
-# Pygame setup
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Solar System Simulation")
-clock = pygame.time.Clock()
-font = pygame.font.SysFont("Arial", 16)
+# Local imports
+from utils import (
+    WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
+    WHITE, YELLOW, BLUE, RED, GREY, ORANGE, COMET_COLOR,
+    TRAIL_LENGTH
+)
 
 # Global variables
 curr_scale = DEFAULT_SCALE
 
-# Colors
-WHITE = (255, 255, 255)
-YELLOW = (255, 255, 0)
-BLUE = (100, 149, 237)
-RED = (188, 39, 50)
-GREY = (80, 78, 81)
-ORANGE = (255, 165, 0)
-COMET_COLOR = (200, 255, 255)
-
-# Trail length
-TRAIL_LENGTH = 300
-
 class Body:
+    """
+    Class representing a celestial body in the simulation.
+
+    Attributes
+    ----------
+    name : str
+        Name of the celestial body.
+    mass : float
+        Mass of the celestial body in kg.
+    pos : np.ndarray
+        Position of the celestial body in 2D space (x, y).
+    vel : np.ndarray
+        Velocity of the celestial body in 2D space (vx, vy).
+    color : tuple
+        Color of the celestial body in RGB format.
+    radius : int
+        Radius of the celestial body in pixels.
+    orbit : list
+        List of positions representing the orbit trail of the celestial body.
+
+    Methods
+    -------
+    update_position(bodies)
+        Updates the position and velocity of the celestial body based on gravitational forces from other bodies.
+    screen_pos()
+        Converts the position of the celestial body to screen coordinates.
+    draw(surface)
+        Draws the celestial body and its orbit on the given surface.
+    """
+
     def __init__(self, name, mass, x, y, vx, vy, color, radius):
         self.name = name
         self.mass = mass
@@ -75,6 +86,16 @@ class Body:
             points = [CENTER + pos * curr_scale for pos in self.orbit]
             pygame.draw.lines(surface, self.color, False, points, 1)
 
+
+# Pygame setup
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Solar System Simulation")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 16)
+
+curr_scale = DEFAULT_SCALE
+
 # Sun (stationary)
 sun = Body("Sun", 1.989e30, 0, 0, 0, 0, YELLOW, 20)
 
@@ -101,15 +122,20 @@ while running:
 
     # Event handling
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
 
         # Zoom controls
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_EQUALS or event.key == pygame.K_PLUS or event.key == pygame.K_UP: # Zoom in
                 curr_scale *= 1.1
+
             elif event.key == pygame.K_MINUS or event.key == pygame.K_UNDERSCORE or event.key == pygame.K_DOWN: # Zoom out
                 curr_scale /= 1.1
+
+            elif event.key == pygame.K_r: # Reset scale
+                curr_scale = DEFAULT_SCALE
+
             elif event.key == pygame.K_SPACE: # Pause/Unpause
                 paused = not paused
 

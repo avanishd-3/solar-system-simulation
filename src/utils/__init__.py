@@ -1,0 +1,6 @@
+# Export constants
+from .constants import (
+    WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
+    WHITE, YELLOW, BLUE, RED, GREY, ORANGE, COMET_COLOR,
+    TRAIL_LENGTH
+)
