@@ -1,5 +1,5 @@
 [project]
-name = "solar-system"
+name = "solar-system-simulation"
 version = "0.1.0"
 description = "Solar system simulation"
 readme = "README.md"
