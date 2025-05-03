@@ -200,6 +200,11 @@ while running:
     time_text = font.render(f"Speed: {time_step / TIMESTEP:.2f}x", True, Colors.WHITE)
     screen.blit(scale_text, (10, 10))
     screen.blit(time_text, (10, 30))
+    # See FPS for more info
+    fps_text = font.render(f"FPS: {int(clock.get_fps())}", True, Colors.WHITE)
+    screen.blit(fps_text, (10, 50))
+    
+    # Display the screen
     pygame.display.flip()
 
 pygame.quit()
