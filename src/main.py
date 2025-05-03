@@ -88,7 +88,7 @@ while running:
                 for body in all_bodies:
                     body.curr_scale = DEFAULT_SCALE
 
-            elif event.key == pygame.K_t:
+            elif event.key == pygame.K_t: # Reset time step
                 for body in all_bodies:
                     body.time_step = TIMESTEP
 
