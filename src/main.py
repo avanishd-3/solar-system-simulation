@@ -45,6 +45,7 @@ running = True
 paused = False
 fullscreen = False
 can_view_fps = True
+can_veiw_time_spent_watching = True
 while running:
     clock.tick(60)
     screen.fill((0, 0, 0))
@@ -108,6 +109,9 @@ while running:
             elif event.key == pygame.K_s: # Toggle viewing fps
                 can_view_fps = not can_view_fps
 
+            elif event.key == pygame.K_1: # Toggle viewing time spent watching
+                can_veiw_time_spent_watching = not can_veiw_time_spent_watching
+
             elif event.key == pygame.K_SPACE: # Pause/Unpause
                 paused = not paused
 
@@ -139,6 +143,21 @@ while running:
     if can_view_fps:
         fps_text = font.render(f"FPS: {int(clock.get_fps())}", True, Colors.WHITE)
         screen.blit(fps_text, (10, 50))
+
+    # See time spent watching
+    if can_veiw_time_spent_watching:
+        seconds_watcing = pygame.time.get_ticks() / 1000
+
+        if seconds_watcing > 60:
+            # Diplay time in minutes and seconds
+            minutes_watching = seconds_watcing // 60
+            seconds_watching = seconds_watcing % 60
+            time_spent_text = font.render(f"Time spent watching: {int(minutes_watching)}m {int(seconds_watching)}s", True, Colors.WHITE)
+        else:
+            # Display time in seconds
+            time_spent_text = font.render(f"Time spent watching: {int(pygame.time.get_ticks() / 1000)}s", True, Colors.WHITE)
+        
+        screen.blit(time_spent_text, (10, 70))
     
     # Display the screen
     pygame.display.flip()

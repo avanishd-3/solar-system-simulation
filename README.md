@@ -54,3 +54,4 @@ uv run src/main.py
 | space | pause/unpause     |
 | f     | toggle fullscreen |
 | s     | toggle FPS |
+| 1     | toggle time spent watching |
