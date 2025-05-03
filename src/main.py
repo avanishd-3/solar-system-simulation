@@ -101,7 +101,10 @@ class Body:
         return CENTER + self.pos * curr_scale
 
     def draw(self, surface):
+        # Get screen position
         x, y = self.screen_pos().astype(int)
+        
+        # Draw planet
         pygame.draw.circle(surface, self.color, (x, y), self.radius)
 
         # Draw orbit
