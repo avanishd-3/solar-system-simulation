@@ -31,3 +31,25 @@ uv sync # Only needed to install dependencies to venv
 
 uv run src/main.py
 ```
+
+## Commands
+
+### Simulation Speed
+| Key         | Action      |
+| ----------- | ----------- |
+| Left Arrow  | Slow down   |
+| Right Arrow | Speed up    |
+| t           | Reset speed |
+
+### Simulation Scale
+| Key                 | Action     |
+| ------------------- | ---------- |
+| Plus or Up Arrow | Zoom in   |
+| Down or Minus Arrow    | Zoom out    |
+| r                   | Reset zoom |
+
+### Other
+| Key   | Action            |
+| ----- | ----------------- |
+| space | pause/unpause     |
+| f     | toggle fullscreen |
