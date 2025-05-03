@@ -54,6 +54,8 @@ while running:
             running = False
 
         elif event.type == pygame.KEYDOWN:
+            # Simulation scale
+            
             if event.key == pygame.K_EQUALS or event.key == pygame.K_PLUS or event.key == pygame.K_UP: # Zoom in
                 curr_scale = all_bodies[0].curr_scale
                 curr_scale *= 1.1
@@ -67,6 +69,12 @@ while running:
 
                 for body in all_bodies:
                     body.curr_scale = curr_scale
+
+            elif event.key == pygame.K_r: # Reset scale
+                for body in all_bodies:
+                    body.curr_scale = DEFAULT_SCALE
+
+            # Simulation speed
 
             elif event.key == pygame.K_LEFT: # Slow down simulation
                 time_step = all_bodies[0].time_step
@@ -83,13 +91,11 @@ while running:
                 for body in all_bodies:
                     body.time_step = time_step
 
-            elif event.key == pygame.K_r: # Reset scale
-                for body in all_bodies:
-                    body.curr_scale = DEFAULT_SCALE
-
             elif event.key == pygame.K_t: # Reset time step
                 for body in all_bodies:
                     body.time_step = TIMESTEP
+
+            # Other controls
 
             elif event.key == pygame.K_f: # Toggle fullscreen
                 fullscreen = not fullscreen
