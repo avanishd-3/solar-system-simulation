@@ -45,6 +45,7 @@ all_bodies = [sun] + planets + [comet]
 # Main loop
 running = True
 paused = False
+fullscreen = False
 while running:
     clock.tick(60)
     screen.fill((0, 0, 0))
@@ -91,6 +92,13 @@ while running:
             elif event.key == pygame.K_t: # Reset time step
                 for body in all_bodies:
                     body.time_step = TIMESTEP
+
+            elif event.key == pygame.K_f: # Toggle fullscreen
+                fullscreen = not fullscreen
+                if fullscreen:
+                    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+                else:
+                    screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
             elif event.key == pygame.K_SPACE: # Pause/Unpause
                 paused = not paused
