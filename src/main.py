@@ -44,6 +44,7 @@ all_bodies = [sun] + planets + [comet]
 running = True
 paused = False
 fullscreen = False
+can_view_fps = True
 while running:
     clock.tick(60)
     screen.fill((0, 0, 0))
@@ -55,7 +56,7 @@ while running:
 
         elif event.type == pygame.KEYDOWN:
             # Simulation scale
-            
+
             if event.key == pygame.K_EQUALS or event.key == pygame.K_PLUS or event.key == pygame.K_UP: # Zoom in
                 curr_scale = all_bodies[0].curr_scale
                 curr_scale *= 1.1
@@ -104,6 +105,9 @@ while running:
                 else:
                     screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
+            elif event.key == pygame.K_s: # Toggle viewing fps
+                can_view_fps = not can_view_fps
+
             elif event.key == pygame.K_SPACE: # Pause/Unpause
                 paused = not paused
 
@@ -132,8 +136,9 @@ while running:
     screen.blit(scale_text, (10, 10))
     screen.blit(time_text, (10, 30))
     # See FPS for more info
-    fps_text = font.render(f"FPS: {int(clock.get_fps())}", True, Colors.WHITE)
-    screen.blit(fps_text, (10, 50))
+    if can_view_fps:
+        fps_text = font.render(f"FPS: {int(clock.get_fps())}", True, Colors.WHITE)
+        screen.blit(fps_text, (10, 50))
     
     # Display the screen
     pygame.display.flip()
