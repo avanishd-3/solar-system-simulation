@@ -1,12 +1,10 @@
 # External imports
 import pygame
-import numpy as np
-from collections import deque # Fast append and pop
 
 # Local imports
 from utils import (
-    WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
-    MAX_TIMESTEP, Colors, TRAIL_LENGTH
+    WIDTH, HEIGHT, AU, DEFAULT_SCALE, TIMESTEP,
+    MAX_TIMESTEP, Colors
 )
 
 from simulation_logic import Body

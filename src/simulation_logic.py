@@ -5,8 +5,7 @@ from collections import deque  # Fast append and pop
 
 # Local imports
 from utils import (
-    WIDTH, HEIGHT, CENTER, AU, G, DEFAULT_SCALE, TIMESTEP,
-    MAX_TIMESTEP, Colors, TRAIL_LENGTH
+    CENTER, G, DEFAULT_SCALE, TIMESTEP, TRAIL_LENGTH
 )
 
 # Global variables
